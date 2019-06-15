@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "./index";
 
 const App = props => {
-  return <div>App</div>;
+  const value = useContext(UserContext);
+  return <div>Hello, {value}</div>;
 };
 
 export default App;
