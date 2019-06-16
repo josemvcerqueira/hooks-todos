@@ -2,22 +2,14 @@ import uuidv4 from "uuid/v4";
 
 function reducer(state, action) {
 	switch (action.type) {
-		case "ADD_TODO": {
-			if (!action.payload) {
-				return state;
-			}
-			if (
-				state.todos.findIndex(todo => todo.text === action.payload) > -1
-			) {
-				return state;
-			}
-
-			const newTodo = {
-				id: uuidv4(),
-				text: action.payload,
-				complete: false
+		case "GET_TODOS": {
+			return {
+				...state,
+				todos: action.payload
 			};
-			const addedTodos = [...state.todos, newTodo];
+		}
+		case "ADD_TODO": {
+			const addedTodos = [...state.todos, action.payload];
 			return {
 				...state,
 				todos: addedTodos
@@ -31,9 +23,7 @@ function reducer(state, action) {
 		}
 		case "TOGGLE_TODO": {
 			const toggledTodos = state.todos.map(todo =>
-				todo.id === action.payload.id
-					? { ...action.payload, complete: !action.payload.complete }
-					: todo
+				todo.id === action.payload.id ? action.payload : todo
 			);
 			return {
 				...state,
@@ -41,15 +31,15 @@ function reducer(state, action) {
 			};
 		}
 		case "UPDATE_TODO": {
-			if (!action.payload) {
-				return state;
-			}
-			if (
-				state.todos.findIndex(todo => todo.text === action.payload) > -1
-			) {
-				return state;
-			}
-			const updatedTodo = { ...state.currentTodo, text: action.payload };
+			// if (!action.payload) {
+			// 	return state;
+			// }
+			// if (
+			// 	state.todos.findIndex(todo => todo.text === action.payload) > -1
+			// ) {
+			// 	return state;
+			// }
+			const updatedTodo = { ...action.payload };
 			const updatedTodoIndex = state.todos.findIndex(
 				todo => todo.id === state.currentTodo.id
 			);
